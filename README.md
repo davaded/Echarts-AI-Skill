@@ -4,7 +4,7 @@
 
 **Give your AI agent a charting skill.**
 
-Turn structured data into the right chart, generate stable ECharts options, and export `HTML` / `SVG` artifacts your agent can hand back to users.
+Turn requests like **"use my data and generate a pie chart"** into deterministic ECharts options and exportable `HTML` / `SVG` chart artifacts.
 
 [![Release](https://img.shields.io/github/v/release/davaded/Echarts-AI-Skill)](https://github.com/davaded/Echarts-AI-Skill/releases)
 [![License](https://img.shields.io/github/license/davaded/Echarts-AI-Skill)](./LICENSE)
@@ -20,15 +20,15 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Why This Skill Exists
 
-AI agents are already good at writing code, editing docs, and automating workflows.
+AI agents are already good at writing code, editing docs, and running workflows.
 But when a user says:
 
 - "Use my sales data and generate a pie chart."
 - "Compare these weekly metrics and give me a bar chart."
-- "Render this chart to SVG and save it to my Desktop."
-- "Pick a suitable chart type from this table and export an HTML preview."
+- "Pick the right chart from this table and export it to my Desktop."
+- "Render this chart as SVG so I can drop it into a report."
 
-most agents still need a stable chart layer underneath.
+most agents still need a stable chart execution layer underneath.
 
 `Echarts-AI-Skill` is that layer.
 
@@ -43,17 +43,54 @@ It gives your agent a deterministic path from **data request -> chart recommenda
 - Resolve friendly paths like `desktop`, `home`, and `~`
 - Use a Codex-readable workflow defined in [`SKILL.md`](./SKILL.md)
 
-## What Users Can Say To The Agent
+## Use Cases
 
-Examples of the intended interaction style:
+### 1. Turn category totals into a pie chart
 
-- "Use this study dataset and generate a line chart."
-- "Use my category totals and make a pie chart."
-- "Choose the best chart for this table, then export the result to my Desktop."
-- "Render the chart as SVG and save it in my report folder."
+User intent:
 
-This repo is not positioned as a generic ECharts wrapper.
-It is positioned as an **agent skill for chart work**.
+> Use my category totals and generate a pie chart.
+
+What the skill does:
+
+- maps category/value fields
+- builds a valid pie-chart option
+- exports an HTML preview or SVG artifact
+
+### 2. Compare weekly metrics with a bar chart
+
+User intent:
+
+> Compare these weekly performance numbers and give me a bar chart.
+
+What the skill does:
+
+- recognizes comparison-oriented data
+- recommends `bar`
+- produces a deterministic ECharts option
+
+### 3. Generate a trend view from time-series data
+
+User intent:
+
+> Use this progress dataset and generate a line chart.
+
+What the skill does:
+
+- detects the time-like field
+- recommends `line`
+- exports a preview for quick review
+
+### 4. Save chart artifacts where the user expects
+
+User intent:
+
+> Export the result to my Desktop.
+
+What the skill does:
+
+- supports `desktop`, `home`, and `~`
+- writes to a friendly path without forcing users to manage exact file names
 
 ## Quick Start
 
@@ -95,7 +132,7 @@ If you want a more product-like local preview, open `examples/product-demo.html`
 }
 ```
 
-This maps more naturally to what a user means when they say:
+This maps naturally to a user request like:
 
 > Use my category totals and generate a pie chart.
 
