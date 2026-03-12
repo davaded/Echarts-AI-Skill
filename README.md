@@ -2,7 +2,9 @@
 
 <div align="center">
 
-**A skill-first ECharts toolkit for Codex that recommends charts, generates deterministic options, and exports HTML/SVG artifacts.**
+**Give your AI agent a charting skill.**
+
+Turn structured data into the right chart, generate stable ECharts options, and export `HTML` / `SVG` artifacts your agent can hand back to users.
 
 [![Release](https://img.shields.io/github/v/release/davaded/Echarts-AI-Skill)](https://github.com/davaded/Echarts-AI-Skill/releases)
 [![License](https://img.shields.io/github/license/davaded/Echarts-AI-Skill)](./LICENSE)
@@ -14,21 +16,44 @@ English | [简体中文](./README.zh-CN.md)
 
 </div>
 
-## Overview
+---
 
-`Echarts-AI-Skill` is a lightweight TypeScript project for assistant-driven chart workflows.
-It takes a compact `ChartRequest`, recommends a suitable chart type, converts it into a deterministic ECharts option, and exports embeddable `HTML` or server-rendered `SVG`.
+## Why This Skill Exists
 
-The current project is optimized for **local skill usage in Codex** while keeping the core clean enough to evolve into an MCP server later.
+AI agents are already good at writing code, editing docs, and automating workflows.
+But when a user says:
 
-## What It Supports Today
+- "Use my sales data and generate a pie chart."
+- "Compare these weekly metrics and give me a bar chart."
+- "Render this chart to SVG and save it to my Desktop."
+- "Pick a suitable chart type from this table and export an HTML preview."
 
-- Chart recommendation for `line`, `bar`, `pie`, and `scatter`
-- Deterministic pipeline: `ChartRequest -> ChartSpec -> ECharts option`
-- Export to `HTML` for interactive preview
-- Export to `SVG` for reports, docs, and embedding
-- Friendly output path handling with `desktop`, `home`, and `~`
-- A Codex-readable workflow definition in [`SKILL.md`](./SKILL.md)
+most agents still need a stable chart layer underneath.
+
+`Echarts-AI-Skill` is that layer.
+
+It gives your agent a deterministic path from **data request -> chart recommendation -> ECharts option -> exportable artifact**.
+
+## What Your Agent Can Do Today
+
+- Recommend `line`, `bar`, `pie`, and `scatter` from tabular data
+- Convert `ChartRequest -> ChartSpec -> ECharts option`
+- Export interactive `HTML` previews
+- Export server-rendered `SVG` for docs, reports, and embedding
+- Resolve friendly paths like `desktop`, `home`, and `~`
+- Use a Codex-readable workflow defined in [`SKILL.md`](./SKILL.md)
+
+## What Users Can Say To The Agent
+
+Examples of the intended interaction style:
+
+- "Use this study dataset and generate a line chart."
+- "Use my category totals and make a pie chart."
+- "Choose the best chart for this table, then export the result to my Desktop."
+- "Render the chart as SVG and save it in my report folder."
+
+This repo is not positioned as a generic ECharts wrapper.
+It is positioned as an **agent skill for chart work**.
 
 ## Quick Start
 
@@ -37,7 +62,7 @@ npm install
 npm run build
 ```
 
-Generate from the bundled example:
+Typical workflow:
 
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
@@ -52,25 +77,27 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 - Study trend request: [`examples/study-progress.request.json`](./examples/study-progress.request.json)
 - Pie chart request: [`examples/pie-chart.request.json`](./examples/pie-chart.request.json)
 
-If you want a repo-homepage-style local demo, open `examples/product-demo.html` in a browser.
+If you want a more product-like local preview, open `examples/product-demo.html` in a browser.
 
-## Example Request
+## Example Agent-Oriented Request
 
 ```json
 {
-  "title": "Study completion trend",
-  "goal": "trend",
+  "title": "Category sales share",
+  "chartType": "pie",
   "dataset": [
-    { "day": "2026-03-01", "completionRate": 62, "targetRate": 75 },
-    { "day": "2026-03-02", "completionRate": 68, "targetRate": 75 }
+    { "category": "Books", "amount": 3200 },
+    { "category": "Courses", "amount": 5100 },
+    { "category": "Templates", "amount": 1700 }
   ],
-  "xField": "day",
-  "series": [
-    { "name": "Completion", "field": "completionRate" },
-    { "name": "Target", "field": "targetRate" }
-  ]
+  "categoryField": "category",
+  "valueField": "amount"
 }
 ```
+
+This maps more naturally to what a user means when they say:
+
+> Use my category totals and generate a pie chart.
 
 ## Output Rules
 
@@ -97,16 +124,17 @@ examples/   sample inputs and demo pages
 SKILL.md    Codex skill instructions
 ```
 
-## Current Scope vs Roadmap
+## Scope
 
-### In Scope
+### Current
 
 - Structured chart input
-- Deterministic recommendation and option generation
+- Chart recommendation
+- Deterministic option generation
 - HTML and SVG export
 - Codex skill workflow
 
-### Planned
+### Next
 
 - Natural language to `ChartRequest`
 - More chart families and validation rules

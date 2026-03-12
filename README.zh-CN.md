@@ -2,7 +2,9 @@
 
 <div align="center">
 
-**一个面向 Codex 的 Skill 优先 ECharts 工具集，用来自动选图、生成稳定 option，并导出 HTML/SVG 图表产物。**
+**给你的 AI Agent 一项图表技能。**
+
+让 Agent 能根据结构化数据自动选图、生成稳定的 ECharts option，并导出 `HTML` / `SVG` 图表产物交付给用户。
 
 [![Release](https://img.shields.io/github/v/release/davaded/Echarts-AI-Skill)](https://github.com/davaded/Echarts-AI-Skill/releases)
 [![License](https://img.shields.io/github/license/davaded/Echarts-AI-Skill)](./LICENSE)
@@ -14,21 +16,45 @@
 
 </div>
 
-## 项目简介
+---
 
-`Echarts-AI-Skill` 是一个轻量级 TypeScript 项目，面向“助手驱动的图表工作流”。
-它接收一个简洁的 `ChartRequest`，自动推荐合适的图表类型，生成稳定的 ECharts option，并进一步导出可嵌入系统的 `HTML` 或服务端渲染 `SVG`。
+## 为什么做这个 Skill
 
-当前项目优先服务于 **Codex 本地 Skill 工作流**，同时保持核心层足够干净，便于后续抽离成 MCP 服务。
+现在的 AI Agent 已经很会写代码、改文档、跑流程了。
+但用户一旦开始说：
 
-## 当前已支持能力
+- “用我这份销售数据生成一个饼图。”
+- “把这组周数据做成柱状图对比一下。”
+- “给我选一个合适的图，然后导出到桌面。”
+- “把这个图导出成 SVG，我要塞进报告里。”
 
-- 支持 `line`、`bar`、`pie`、`scatter` 四类图表推荐
-- 支持稳定的 `ChartRequest -> ChartSpec -> ECharts option` 转换链路
-- 支持导出交互式 `HTML` 预览
-- 支持导出适合报告、文档和嵌入场景的 `SVG`
-- 支持 `desktop`、`home`、`~` 等友好的输出路径
-- 自带可被 Codex 读取的技能说明 [`SKILL.md`](./SKILL.md)
+Agent 背后通常还缺一个稳定的图表执行层。
+
+`Echarts-AI-Skill` 就是这层能力。
+
+它给 Agent 提供一条确定性的链路：
+**数据请求 -> 图表推荐 -> ECharts option -> 可交付图表产物**。
+
+## 你的 Agent 现在能做什么
+
+- 根据表格数据推荐 `line`、`bar`、`pie`、`scatter`
+- 把 `ChartRequest -> ChartSpec -> ECharts option`
+- 导出交互式 `HTML` 预览
+- 导出适合报告、文档和嵌入场景的 `SVG`
+- 支持 `desktop`、`home`、`~` 等友好的路径写法
+- 按 [`SKILL.md`](./SKILL.md) 定义的 Codex Skill 工作流执行
+
+## 用户可以怎么对 Agent 说
+
+这类表达，才是这个仓库真正面向的使用方式：
+
+- “用这份学习数据生成一个折线图。”
+- “用我的分类汇总做一个饼图。”
+- “帮我选最合适的图，然后把结果导出到桌面。”
+- “把这个图渲染成 SVG，保存到我的报告目录。”
+
+所以这个仓库的定位不是普通的 ECharts 封装库，
+而是一个 **面向 Agent 的图表 Skill**。
 
 ## 快速开始
 
@@ -37,7 +63,7 @@ npm install
 npm run build
 ```
 
-使用仓库内示例直接生成：
+典型工作流：
 
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
@@ -46,38 +72,40 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format html
 node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 ```
 
-## Demo 示例
+## Demo
 
 - 产品化展示页：[`examples/product-demo.html`](./examples/product-demo.html)
 - 学习趋势请求示例：[`examples/study-progress.request.json`](./examples/study-progress.request.json)
 - 饼图请求示例：[`examples/pie-chart.request.json`](./examples/pie-chart.request.json)
 
-如果你想看更像仓库首页展示的效果，直接在浏览器里打开 `examples/product-demo.html`。
+如果你想看更像产品展示页的效果，直接在浏览器中打开 `examples/product-demo.html`。
 
-## 请求示例
+## 面向 Agent 的请求示例
 
 ```json
 {
-  "title": "Study completion trend",
-  "goal": "trend",
+  "title": "Category sales share",
+  "chartType": "pie",
   "dataset": [
-    { "day": "2026-03-01", "completionRate": 62, "targetRate": 75 },
-    { "day": "2026-03-02", "completionRate": 68, "targetRate": 75 }
+    { "category": "Books", "amount": 3200 },
+    { "category": "Courses", "amount": 5100 },
+    { "category": "Templates", "amount": 1700 }
   ],
-  "xField": "day",
-  "series": [
-    { "name": "Completion", "field": "completionRate" },
-    { "name": "Target", "field": "targetRate" }
-  ]
+  "categoryField": "category",
+  "valueField": "amount"
 }
 ```
+
+这个请求更贴近用户真实会说的话：
+
+> 用我的分类汇总数据生成一个饼图。
 
 ## 输出规则
 
 - `--out`：写入精确文件路径
 - `--out-dir`：写入指定目录，并自动使用默认文件名
 - 输出路径支持 `desktop`、`home`、`~`
-- 如果不提供输出路径，默认优先写到桌面；若桌面不存在则回退到用户主目录
+- 如果没有提供路径，默认优先输出到桌面；桌面不存在时回退到用户主目录
 
 默认文件名：
 
@@ -97,16 +125,17 @@ examples/   示例输入与展示页面
 SKILL.md    Codex Skill 说明
 ```
 
-## 当前范围与后续路线
+## 范围
 
-### 当前范围
+### 当前版本
 
 - 结构化图表输入
-- 稳定的推荐与 option 生成
+- 图表推荐
+- 稳定的 option 生成
 - HTML 与 SVG 导出
 - Codex Skill 工作流
 
-### 后续路线
+### 下一步
 
 - 自然语言转 `ChartRequest`
 - 更丰富的图表类型和校验规则
