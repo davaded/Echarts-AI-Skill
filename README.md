@@ -36,12 +36,44 @@ It gives your agent a deterministic path from **data request -> chart recommenda
 
 ## What Your Agent Can Do Today
 
-- Recommend `line`, `bar`, `pie`, and `scatter` from tabular data
-- Convert `ChartRequest -> ChartSpec -> ECharts option`
-- Export interactive `HTML` previews
-- Export server-rendered `SVG` for docs, reports, and embedding
-- Resolve friendly paths like `desktop`, `home`, and `~`
-- Use a Codex-readable workflow defined in [`SKILL.md`](./SKILL.md)
+### Built-in recommendation
+
+For generic table-shaped input, the skill currently auto-recommends:
+
+- `line`
+- `bar`
+- `pie`
+- `scatter`
+
+### Explicit chart generation
+
+If the request explicitly sets `chartType`, the current builder supports:
+
+- `line`
+- `bar`
+- `pie`
+- `scatter`
+- `effectScatter`
+- `radar`
+- `funnel`
+- `gauge`
+- `heatmap`
+- `treemap`
+- `sunburst`
+- `sankey`
+- `graph`
+- `candlestick`
+- `boxplot`
+- `parallel`
+- `map`
+- `lines`
+
+Also supported:
+
+- interactive `HTML` preview export
+- server-rendered `SVG` export
+- friendly output paths like `desktop`, `home`, and `~`
+- Codex workflow instructions in [`SKILL.md`](./SKILL.md)
 
 ## Use Cases
 
@@ -81,7 +113,19 @@ What the skill does:
 - recommends `line`
 - exports a preview for quick review
 
-### 4. Save chart artifacts where the user expects
+### 4. Render richer charts when the request is explicit
+
+User intent:
+
+> Use these nodes and links and generate a sankey chart.
+
+What the skill does:
+
+- accepts chart-specific request fields
+- builds richer ECharts series such as `radar`, `sankey`, `graph`, `gauge`, and `heatmap`
+- keeps the generation path deterministic instead of free-form
+
+### 5. Save chart artifacts where the user expects
 
 User intent:
 
@@ -113,6 +157,11 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 - Product-style showcase page: [`examples/product-demo.html`](./examples/product-demo.html)
 - Study trend request: [`examples/study-progress.request.json`](./examples/study-progress.request.json)
 - Pie chart request: [`examples/pie-chart.request.json`](./examples/pie-chart.request.json)
+- Radar request: [`examples/radar.request.json`](./examples/radar.request.json)
+- Gauge request: [`examples/gauge.request.json`](./examples/gauge.request.json)
+- Heatmap request: [`examples/heatmap.request.json`](./examples/heatmap.request.json)
+- Sankey request: [`examples/sankey.request.json`](./examples/sankey.request.json)
+- Graph request: [`examples/graph.request.json`](./examples/graph.request.json)
 
 If you want a more product-like local preview, open `examples/product-demo.html` in a browser.
 
@@ -166,15 +215,15 @@ SKILL.md    Codex skill instructions
 ### Current
 
 - Structured chart input
-- Chart recommendation
-- Deterministic option generation
+- Common chart recommendation
+- Broad explicit `chartType` support
 - HTML and SVG export
 - Codex skill workflow
 
 ### Next
 
 - Natural language to `ChartRequest`
-- More chart families and validation rules
+- More chart-family-specific validation rules
 - Chart explanation and refinement workflows
 - MCP server packaging
 

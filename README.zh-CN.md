@@ -37,12 +37,44 @@ Agent 背后通常还缺一个稳定的图表执行层。
 
 ## 你的 Agent 现在能做什么
 
-- 根据表格数据推荐 `line`、`bar`、`pie`、`scatter`
-- 把 `ChartRequest -> ChartSpec -> ECharts option`
-- 导出交互式 `HTML` 预览
-- 导出适合报告、文档和嵌入场景的 `SVG`
-- 支持 `desktop`、`home`、`~` 等友好的路径写法
-- 按 [`SKILL.md`](./SKILL.md) 定义的 Codex Skill 工作流执行
+### 内置自动推荐
+
+对于常规表格型输入，当前自动推荐支持：
+
+- `line`
+- `bar`
+- `pie`
+- `scatter`
+
+### 显式图表生成
+
+如果请求里明确指定了 `chartType`，当前 builder 支持：
+
+- `line`
+- `bar`
+- `pie`
+- `scatter`
+- `effectScatter`
+- `radar`
+- `funnel`
+- `gauge`
+- `heatmap`
+- `treemap`
+- `sunburst`
+- `sankey`
+- `graph`
+- `candlestick`
+- `boxplot`
+- `parallel`
+- `map`
+- `lines`
+
+同时还支持：
+
+- 交互式 `HTML` 预览导出
+- 服务端渲染 `SVG` 导出
+- `desktop`、`home`、`~` 等友好路径
+- [`SKILL.md`](./SKILL.md) 定义的 Codex 工作流
 
 ## 使用场景
 
@@ -82,7 +114,19 @@ Agent 背后通常还缺一个稳定的图表执行层。
 - 推荐 `line`
 - 导出可快速查看的预览结果
 
-### 4. 按用户习惯保存产物
+### 4. 显式生成更复杂的图表
+
+用户会说：
+
+> 用这些节点和连线生成一个桑基图。
+
+这个 skill 会：
+
+- 接收图表专属字段结构
+- 生成 `radar`、`sankey`、`graph`、`gauge`、`heatmap` 等更复杂图表
+- 保持生成链路是确定性的，而不是自由发挥式拼 option
+
+### 5. 按用户习惯保存产物
 
 用户会说：
 
@@ -114,6 +158,11 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 - 产品化展示页：[`examples/product-demo.html`](./examples/product-demo.html)
 - 学习趋势请求示例：[`examples/study-progress.request.json`](./examples/study-progress.request.json)
 - 饼图请求示例：[`examples/pie-chart.request.json`](./examples/pie-chart.request.json)
+- 雷达图请求示例：[`examples/radar.request.json`](./examples/radar.request.json)
+- 仪表盘请求示例：[`examples/gauge.request.json`](./examples/gauge.request.json)
+- 热力图请求示例：[`examples/heatmap.request.json`](./examples/heatmap.request.json)
+- 桑基图请求示例：[`examples/sankey.request.json`](./examples/sankey.request.json)
+- 关系图请求示例：[`examples/graph.request.json`](./examples/graph.request.json)
 
 如果你想看更像产品展示页的效果，直接在浏览器中打开 `examples/product-demo.html`。
 
@@ -167,15 +216,15 @@ SKILL.md    Codex Skill 说明
 ### 当前版本
 
 - 结构化图表输入
-- 图表推荐
-- 稳定的 option 生成
+- 常见图表自动推荐
+- 更广的显式 `chartType` 支持
 - HTML 与 SVG 导出
 - Codex Skill 工作流
 
 ### 下一步
 
 - 自然语言转 `ChartRequest`
-- 更丰富的图表类型和校验规则
+- 更细的图表类型校验规则
 - 图表解释与修正工作流
 - MCP 服务封装
 
