@@ -68,6 +68,29 @@ If the request explicitly sets `chartType`, the current builder supports:
 - `map`
 - `lines`
 
+### Chart Type Reference
+
+| Type | Chinese |
+| --- | --- |
+| `line` | 折线图 |
+| `bar` | 柱状图 / 条形图 |
+| `pie` | 饼图 |
+| `scatter` | 散点图 |
+| `effectScatter` | 涟漪散点图 |
+| `radar` | 雷达图 |
+| `funnel` | 漏斗图 |
+| `gauge` | 仪表盘 |
+| `heatmap` | 热力图 |
+| `treemap` | 矩形树图 |
+| `sunburst` | 旭日图 |
+| `sankey` | 桑基图 |
+| `graph` | 关系图 |
+| `candlestick` | K 线图 |
+| `boxplot` | 箱线图 |
+| `parallel` | 平行坐标图 |
+| `map` | 地图 |
+| `lines` | 线路图 / 迁徙线图 |
+
 Also supported:
 
 - interactive `HTML` preview export
