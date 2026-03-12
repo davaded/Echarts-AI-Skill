@@ -1,65 +1,43 @@
 # Echarts-AI-Skill
 
-> AI-assisted ECharts skill for Codex and scriptable chart generation.  
-> 面向 Codex 的 ECharts 图表技能项目，支持自动选图、结构化出图与 HTML/SVG 导出。
+<div align="center">
 
-## Overview | 项目简介
+**A skill-first ECharts toolkit for Codex that recommends charts, generates deterministic options, and exports HTML/SVG artifacts.**
 
-**English**
+[![Release](https://img.shields.io/github/v/release/davaded/Echarts-AI-Skill)](https://github.com/davaded/Echarts-AI-Skill/releases)
+[![License](https://img.shields.io/github/license/davaded/Echarts-AI-Skill)](./LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![ECharts](https://img.shields.io/badge/ECharts-5.x-AA344D)](https://echarts.apache.org/)
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111)](./SKILL.md)
 
-`Echarts-AI-Skill` is a skill-first TypeScript project that turns lightweight chart requests into deterministic ECharts options and exportable artifacts. It is designed for local assistant workflows first, while keeping the core clean enough to evolve into an MCP server later.
+English | [简体中文](./README.zh-CN.md)
 
-**中文**
+</div>
 
-`Echarts-AI-Skill` 是一个以 Skill 为优先形态的 TypeScript 项目。它把轻量级图表请求转换成稳定的 ECharts option，并支持导出 HTML 和 SVG。当前重点是本地助手工作流，后续可以平滑演进为 MCP 服务。
+## Overview
 
-## Highlights | 核心能力
+`Echarts-AI-Skill` is a lightweight TypeScript project for assistant-driven chart workflows.
+It takes a compact `ChartRequest`, recommends a suitable chart type, converts it into a deterministic ECharts option, and exports embeddable `HTML` or server-rendered `SVG`.
 
-**English**
+The current project is optimized for **local skill usage in Codex** while keeping the core clean enough to evolve into an MCP server later.
 
-- Recommends `line`, `bar`, `pie`, and `scatter` from tabular input
-- Converts `ChartRequest -> ChartSpec -> ECharts option`
-- Exports embeddable `HTML` and server-rendered `SVG`
-- Supports friendly output paths like `desktop`, `home`, and `~`
-- Ships with a Codex-readable [`SKILL.md`](./SKILL.md)
+## What It Supports Today
 
-**中文**
+- Chart recommendation for `line`, `bar`, `pie`, and `scatter`
+- Deterministic pipeline: `ChartRequest -> ChartSpec -> ECharts option`
+- Export to `HTML` for interactive preview
+- Export to `SVG` for reports, docs, and embedding
+- Friendly output path handling with `desktop`, `home`, and `~`
+- A Codex-readable workflow definition in [`SKILL.md`](./SKILL.md)
 
-- 支持根据表格数据自动推荐 `line`、`bar`、`pie`、`scatter`
-- 支持 `ChartRequest -> ChartSpec -> ECharts option` 的稳定转换
-- 支持导出可嵌入系统的 `HTML` 与服务端渲染 `SVG`
-- 支持 `desktop`、`home`、`~` 等友好的输出路径写法
-- 自带可被 Codex 直接读取的 [`SKILL.md`](./SKILL.md)
-
-## Product Demo | 产品化示例
-
-**English**
-
-Open [`examples/product-demo.html`](./examples/product-demo.html) to see a more product-like showcase page with three chart panels, positioning copy, and a visual treatment that fits a repo homepage demo.
-
-**中文**
-
-打开 [`examples/product-demo.html`](./examples/product-demo.html) 可以看到一个更像产品首页展示的 demo：包含三块图表面板、产品定位文案和更完整的视觉包装，适合作为仓库首页示例。
-
-## Repository Structure | 目录结构
-
-```text
-src/
-  cli/      command entrypoints | 命令行入口
-  core/     recommendation, option building, rendering | 推荐、构建与渲染核心
-  types/    request/spec types | 请求与规格类型
-examples/   sample inputs and demo pages | 示例输入与演示页面
-SKILL.md    skill instructions for Codex | Codex 技能说明
-```
-
-## Quick Start | 快速开始
+## Quick Start
 
 ```powershell
 npm install
 npm run build
 ```
 
-### Example Commands | 示例命令
+Generate from the bundled example:
 
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
@@ -68,32 +46,24 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format html
 node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 ```
 
-### Output Rules | 输出规则
+## Demo
 
-**English**
+- Product-style showcase page: [`examples/product-demo.html`](./examples/product-demo.html)
+- Study trend request: [`examples/study-progress.request.json`](./examples/study-progress.request.json)
+- Pie chart request: [`examples/pie-chart.request.json`](./examples/pie-chart.request.json)
 
-- `--out` writes to an exact file path
-- `--out-dir` writes to a specific directory using the default output filename
-- `desktop`, `home`, and `~` are supported in output paths
-- if no path is provided, the tool defaults to Desktop and falls back to the user home directory
+If you want a repo-homepage-style local demo, open `examples/product-demo.html` in a browser.
 
-**中文**
-
-- `--out` 用于写入精确文件路径
-- `--out-dir` 用于指定输出目录，文件名自动使用默认值
-- 输出路径支持 `desktop`、`home`、`~`
-- 如果没有提供输出路径，默认优先写到桌面，不存在桌面时回退到用户主目录
-
-## ChartRequest Example | 请求示例
+## Example Request
 
 ```json
 {
   "title": "Study completion trend",
+  "goal": "trend",
   "dataset": [
     { "day": "2026-03-01", "completionRate": 62, "targetRate": 75 },
     { "day": "2026-03-02", "completionRate": 68, "targetRate": 75 }
   ],
-  "goal": "trend",
   "xField": "day",
   "series": [
     { "name": "Completion", "field": "completionRate" },
@@ -102,23 +72,47 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 }
 ```
 
-## Roadmap | 后续计划
+## Output Rules
 
-**English**
+- `--out` writes to an exact file path
+- `--out-dir` writes to a directory using the default output filename
+- `desktop`, `home`, and `~` are supported in path resolution
+- If no path is provided, output defaults to Desktop and falls back to the user home directory
 
-- natural language to `ChartRequest`
-- richer chart families and validation
-- explanation and refinement workflows
+Default filenames:
+
+- `recommend` -> `spec.json`
+- `generate` -> `option.json`
+- `render --format html` -> `preview.html`
+- `render --format svg` -> `preview.svg`
+
+## Project Structure
+
+```text
+src/
+  cli/      command entrypoints
+  core/     recommendation, option building, rendering
+  types/    request/spec types
+examples/   sample inputs and demo pages
+SKILL.md    Codex skill instructions
+```
+
+## Current Scope vs Roadmap
+
+### In Scope
+
+- Structured chart input
+- Deterministic recommendation and option generation
+- HTML and SVG export
+- Codex skill workflow
+
+### Planned
+
+- Natural language to `ChartRequest`
+- More chart families and validation rules
+- Chart explanation and refinement workflows
 - MCP server packaging
 
-**中文**
+## License
 
-- 自然语言转 `ChartRequest`
-- 更丰富的图表类型与校验能力
-- 图表解释与修正工作流
-- 演进为 MCP 服务
-
-## License | 许可证
-
-This project is released under the [MIT License](./LICENSE).
-本项目采用 [MIT License](./LICENSE)。
+Released under the [MIT License](./LICENSE).
