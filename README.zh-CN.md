@@ -189,6 +189,16 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 
 如果你想看更像产品展示页的效果，直接在浏览器中打开 `examples/product-demo.html`。
 
+## 发布元信息
+
+当前仓库已经补齐了更通用的技能发布元信息：
+
+- [`SKILL.md`](./SKILL.md) 用于 Codex / OpenClaw 风格技能说明
+- [`manifest.yaml`](./manifest.yaml) 用于发布导向的 metadata
+- [`agents/openai.yaml`](./agents/openai.yaml) 用于 OpenAI 风格技能 metadata
+
+如果你要发布到 ClawHub / OpenClaw，剩下的主要步骤就是在登录对应平台 CLI 后，从仓库根目录执行发布命令。
+
 ## 面向 Agent 的请求示例
 
 ```json
@@ -231,7 +241,9 @@ src/
   core/     推荐、构建和渲染核心
   types/    请求与规格类型
 examples/   示例输入与展示页面
+agents/     跨平台技能 metadata
 SKILL.md    Codex Skill 说明
+manifest.yaml 发布导向 metadata
 ```
 
 ## 范围
@@ -243,6 +255,7 @@ SKILL.md    Codex Skill 说明
 - 更广的显式 `chartType` 支持
 - HTML 与 SVG 导出
 - Codex Skill 工作流
+- 面向技能生态的通用发布元信息
 
 ### 下一步
 

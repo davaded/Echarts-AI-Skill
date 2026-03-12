@@ -1,6 +1,14 @@
 ---
 name: echarts-chart-skill
 description: Generate charts from natural language or tabular data, recommend chart types, and export ECharts-based HTML or SVG. Use when users ask for one-sentence chart generation, auto chart selection from data, or embeddable chart previews.
+metadata:
+  short-description: Skill-first ECharts toolkit for agent chart workflows
+  openclaw:
+    slug: echarts-ai-skill
+    version: 0.1.3
+    license: MIT
+    homepage: https://github.com/davaded/Echarts-AI-Skill
+    repository: https://github.com/davaded/Echarts-AI-Skill
 ---
 
 # ECharts Chart Skill
@@ -21,6 +29,7 @@ Use this skill when the user wants chart output from a short description or from
 - Option generation: `src/core/spec-to-option.ts`
 - Rendering: `src/core/render.ts`
 - Sample input: `examples/study-progress.request.json`
+- Universal metadata: `manifest.yaml`, `agents/openai.yaml`
 
 ## Setup
 
@@ -79,3 +88,4 @@ Default output filenames:
 - For scatter charts, require numeric `xField` and `yField`.
 - If the user only gave natural language, construct the smallest valid `ChartRequest` before calling scripts.
 - If the user needs a report artifact, render `html` first and `svg` second.
+

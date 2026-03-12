@@ -188,6 +188,16 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 
 If you want a more product-like local preview, open `examples/product-demo.html` in a browser.
 
+## Publishing Metadata
+
+This repo now includes cross-ecosystem packaging metadata:
+
+- [`SKILL.md`](./SKILL.md) for Codex/OpenClaw-style skill instructions
+- [`manifest.yaml`](./manifest.yaml) for publish-oriented metadata
+- [`agents/openai.yaml`](./agents/openai.yaml) for OpenAI-style skill metadata
+
+For ClawHub/OpenClaw publishing, the remaining step is running the platform CLI from this repository after login.
+
 ## Example Agent-Oriented Request
 
 ```json
@@ -230,7 +240,9 @@ src/
   core/     recommendation, option building, rendering
   types/    request/spec types
 examples/   sample inputs and demo pages
+agents/     cross-platform skill metadata
 SKILL.md    Codex skill instructions
+manifest.yaml publish-oriented metadata
 ```
 
 ## Scope
@@ -242,6 +254,7 @@ SKILL.md    Codex skill instructions
 - Broad explicit `chartType` support
 - HTML and SVG export
 - Codex skill workflow
+- Universal packaging metadata for skill ecosystems
 
 ### Next
 
