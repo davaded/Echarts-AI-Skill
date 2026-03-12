@@ -5,7 +5,7 @@ metadata:
   short-description: Skill-first ECharts toolkit for agent chart workflows
   openclaw:
     slug: echarts-ai-skill
-    version: 0.1.3
+    version: 0.1.4
     license: MIT
     homepage: https://github.com/davaded/Echarts-AI-Skill
     repository: https://github.com/davaded/Echarts-AI-Skill
@@ -35,24 +35,23 @@ Use this skill when the user wants chart output from a short description or from
 
 ```powershell
 npm install
-npm run build
 ```
 
 ## Output rules
 
 - `--out` writes to an exact file path.
 - `--out-dir` writes the default file into a directory you choose.
-- `desktop` and `home` are valid aliases for `--out-dir`.
+- `desktop` and `home` are valid aliases for `--out-dir` when the user explicitly asks for those locations.
 - `~` is expanded to the current user's home directory.
-- If no output path is provided, files default to the Desktop when it exists, otherwise to the user's home directory.
+- If no output path is provided, files default to the current working directory.
 
 ## Commands
 
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
-node dist/cli/generate-chart.js --input examples\study-progress.request.json --out-dir desktop
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format html
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg --out D:\reports\study-chart.svg
+node dist/cli/generate-chart.js --input examples\study-progress.request.json
+node dist/cli/render-chart.js --input option.json --format html
+node dist/cli/render-chart.js --input option.json --format svg --out D:\reports\study-chart.svg
 ```
 
 Default output filenames:

@@ -46,11 +46,11 @@ async function pathExists(targetPath: string): Promise<boolean> {
 }
 
 async function defaultOutputDirectory(): Promise<string> {
-  const desktopPath = path.join(os.homedir(), "Desktop");
-  if (await pathExists(desktopPath)) {
-    return desktopPath;
+  const currentDirectory = process.cwd();
+  if (await pathExists(currentDirectory)) {
+    return currentDirectory;
   }
-  return os.homedir();
+  return path.resolve(".");
 }
 
 export async function readJsonInput<T>(): Promise<T> {

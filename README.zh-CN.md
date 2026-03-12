@@ -96,7 +96,7 @@ Agent 背后通常还缺一个稳定的图表执行层。
 
 - 交互式 `HTML` 预览导出
 - 服务端渲染 `SVG` 导出
-- `desktop`、`home`、`~` 等友好路径
+- 显式指定时支持 `desktop`、`home`、`~` 等友好路径
 - [`SKILL.md`](./SKILL.md) 定义的 Codex 工作流
 
 ## 使用场景
@@ -164,7 +164,6 @@ Agent 背后通常还缺一个稳定的图表执行层。
 
 ```powershell
 npm install
-npm run build
 ```
 
 典型工作流：
@@ -172,8 +171,8 @@ npm run build
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
 node dist/cli/generate-chart.js --input examples\study-progress.request.json
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format html
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
+node dist/cli/render-chart.js --input option.json --format html
+node dist/cli/render-chart.js --input option.json --format svg
 ```
 
 ## Demo
@@ -223,8 +222,8 @@ node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
 
 - `--out`：写入精确文件路径
 - `--out-dir`：写入指定目录，并自动使用默认文件名
-- 输出路径支持 `desktop`、`home`、`~`
-- 如果没有提供路径，默认优先输出到桌面；桌面不存在时回退到用户主目录
+- 当用户明确要求这些位置时，输出路径支持 `desktop`、`home`、`~`
+- 如果没有提供路径，默认输出到当前工作目录
 
 默认文件名：
 

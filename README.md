@@ -95,7 +95,7 @@ Also supported:
 
 - interactive `HTML` preview export
 - server-rendered `SVG` export
-- friendly output paths like `desktop`, `home`, and `~`
+- explicit friendly output paths like `desktop`, `home`, and `~`
 - Codex workflow instructions in [`SKILL.md`](./SKILL.md)
 
 ## Use Cases
@@ -163,7 +163,6 @@ What the skill does:
 
 ```powershell
 npm install
-npm run build
 ```
 
 Typical workflow:
@@ -171,8 +170,8 @@ Typical workflow:
 ```powershell
 node dist/cli/recommend-chart.js --input examples\study-progress.request.json
 node dist/cli/generate-chart.js --input examples\study-progress.request.json
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format html
-node dist/cli/render-chart.js --input ~\Desktop\option.json --format svg
+node dist/cli/render-chart.js --input option.json --format html
+node dist/cli/render-chart.js --input option.json --format svg
 ```
 
 ## Demo
@@ -222,8 +221,8 @@ This maps naturally to a user request like:
 
 - `--out` writes to an exact file path
 - `--out-dir` writes to a directory using the default output filename
-- `desktop`, `home`, and `~` are supported in path resolution
-- If no path is provided, output defaults to Desktop and falls back to the user home directory
+- `desktop`, `home`, and `~` are supported in path resolution when the user explicitly asks for those locations
+- If no path is provided, output defaults to the current working directory
 
 Default filenames:
 
